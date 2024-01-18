@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>js-refs demo</title>
+
+        <!-- import the template string. takes the global namespace 'template01'  -->
+        <script type="text/javascript" src="template-01.js"></script>
+        <!-- import the template string. takes the global namespace 'template02'  -->
+        <script type="text/javascript" src="template-02.js"></script>
+        <!-- import the template string. takes the global namespace 'template03'  -->
+        <script type="text/javascript" src="template-03.js"></script>
+
+        <!-- import the js-refs module. takes the global namespace 'JSR' -->
+        <script type="text/javascript" src="src/js-refs.js"></script>
+        <!-- create the reference objects from the templates -->
+        <script type="text/javascript">
+        // wait for the document.body to be available
+        window.addEventListener('DOMContentLoaded', function() {
+            // build the objects from the HTML strings
+            var refs = {
+                template01: JSR.build(template01),
+                template02: JSR.build(template02),
+                template03: JSR.build(template03),
+            }
+            // now that the markup is generated, we can manipulate the nodes using the returned references
+            refs.template01['name'].innerHTML = 'template 01';
+            refs.template01['value'].innerHTML = 'a day in a year';
+            document.body.appendChild(refs.template01['root']);
+            
+            refs.template02['name'].innerHTML = 'template 02';
+            refs.template02['value'].innerHTML = 'a year in a day';
+            document.body.appendChild(refs.template02['root']);
+            
+            refs.template03['name'].innerHTML = 'template 03';
+            refs.template03['value'].innerHTML = 'another day';
+            document.body.appendChild(refs.template03['root']);
+        });
+        </script>
+    </head>
+    <body></body>
+</html>
