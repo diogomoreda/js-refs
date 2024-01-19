@@ -2,7 +2,7 @@
 
 A lightweight JS module to facilitate the creation and manipulation of HTML nodes in the browser, using strings containing HTML code as input models.
 
-This module deprectes the usage of 'hard to read' code patters such as:
+This module deprecates the usage of 'hard to read' code patters such as:
 
 ```js
 function createMarkupObject(name, value)
