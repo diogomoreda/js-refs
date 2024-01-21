@@ -3,38 +3,72 @@
     <head>
         <meta charset="utf-8">
         <title>js-refs demo</title>
-
-        <!-- import the template string. takes the global namespace 'template01'  -->
-        <script type="text/javascript" src="template-01.js"></script>
-        <!-- import the template string. takes the global namespace 'template02'  -->
-        <script type="text/javascript" src="template-02.js"></script>
-        <!-- import the template string. takes the global namespace 'template03'  -->
-        <script type="text/javascript" src="template-03.js"></script>
-
+        
         <!-- import the js-refs module. takes the global namespace 'JSR' -->
         <script type="text/javascript" src="src/js-refs.js"></script>
         <!-- create the reference objects from the templates -->
         <script type="text/javascript">
+        
+        // create an array to save our template refs created with JSR
+        var refs = [];
+            
         // wait for the document.body to be available
         window.addEventListener('DOMContentLoaded', function() {
-            // build the objects from the HTML strings
-            var refs = {
-                template01: JSR.build(template01),
-                template02: JSR.build(template02),
-                template03: JSR.build(template03),
-            }
-            // now that the markup is generated, we can manipulate the nodes using the returned references
-            refs.template01['name'].innerHTML = 'template 01';
-            refs.template01['value'].innerHTML = 'a day in a year';
-            document.body.appendChild(refs.template01['root']);
             
-            refs.template02['name'].innerHTML = 'template 02';
-            refs.template02['value'].innerHTML = 'a year in a day';
-            document.body.appendChild(refs.template02['root']);
+            // templates may be defined as simple strings containing HTML
+            refs[0] = JSR.build(`
+                <div>
+                    <label ref="name"></label>
+                    <span ref="value"></span>
+                </div>
+            `);
+
+            // template nodes may now be manipulated using their references
+            refs[0]['name'].innerHTML = 'template 0';
+            refs[0]['value'].innerHTML = 'a day in a year';
             
-            refs.template03['name'].innerHTML = 'template 03';
-            refs.template03['value'].innerHTML = 'another day';
-            document.body.appendChild(refs.template03['root']);
+            // append the template root node to the page to bring it to life
+            document.body.appendChild(refs[0]['root']);
+            
+
+            // or may be loaded from external html files (stored in the same domain)
+            JSR.load('templates/template-01.html').then(function(response) {
+                refs[1] = response;
+
+                // template nodes may now be manipulated using their references
+                refs[1]['name'].innerHTML = 'template 01';
+                refs[1]['value'].innerHTML = 'another day';
+
+                // append the template root node to the page to bring it to life
+                document.body.appendChild(refs[1]['root']);
+            });
+
+
+            // also possible to load and build multiple templates at once
+            JSR.load([
+                'templates/template-02.html',
+                'templates/template-03.html'
+            ]).then(function(response) {
+                
+                refs[2] = response['templates/template-02.html'];
+
+                // template nodes may now be manipulated using their references
+                refs[2]['name'].innerHTML = 'template 02';
+                refs[2]['value'].innerHTML = 'not the last one';
+
+                // append the template root node to the page to bring it to life
+                document.body.appendChild(refs[2]['root']);
+
+                
+                refs[3] = response['templates/template-03.html'];
+
+                // template nodes may now be manipulated using their references
+                refs[3]['name'].innerHTML = 'template 03';
+                refs[3]['value'].innerHTML = 'the last one';
+
+                // append the template root node to the page to bring it to life
+                document.body.appendChild(refs[3]['root']);
+            })
         });
         </script>
     </head>
