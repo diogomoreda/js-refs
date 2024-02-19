@@ -68,3 +68,6 @@ The module takes the global namespace **'JSR'**
 
 ## Methods
 **JSR.build(HTMLstr)** main method. Converts a string containing HTML content into an object containing references to the referenced HTML nodes.
+
+## Examples
+You can see this module in action in the projects displayed in my showrrom, namely in tree and tetris.
